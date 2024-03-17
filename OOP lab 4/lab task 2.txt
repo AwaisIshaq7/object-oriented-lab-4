@@ -1,0 +1,37 @@
+#include <iostream>
+#include <list>
+#include <algorithm>
+
+bool customCompare(int a, int b) {
+    return a % 2 == 0 && b % 2 != 0;
+}
+
+int main() {
+    std::list<int> list = {5, 3, 4, 2, 1};
+
+    // Sort the list in ascending order
+    list.sort();
+    std::cout << "Sorted list (ascending): ";
+    for (auto i : list) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+
+    // Sort the list in descending order
+    list.sort([](int a, int b) { return a > b; });
+    std::cout << "Sorted list (descending): ";
+    for (auto i : list) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+
+    // Sort the list in a custom order (even numbers first, then odd numbers)
+    list.sort(customCompare);
+    std::cout << "Sorted list (even first, odd second): ";
+    for (auto i : list) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}

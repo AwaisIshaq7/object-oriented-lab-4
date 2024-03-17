@@ -1,0 +1,86 @@
+#include <iostream>
+#include <list>
+#include <string>
+#include <vector>
+
+class ToDoList {
+public:
+    // Add a new task to the list
+    void addTask(const std::string& description, int priority, const std::string& dueDate) {
+        tasks.emplace_back(description, priority, dueDate);
+    }
+
+    // Add a new sub-list to the list
+    void addSubList(const ToDoList& subList) {
+        subLists.push_back(subList);
+    }
+
+    // Delete a task from the list by index
+    void deleteTask(size_t index) {
+        if (index >= tasks.size()) {
+            std::cout << "Error: Invalid task index." << std::endl;
+            return;
+        }
+        tasks.erase(tasks.begin() + index);
+    }
+
+    // Delete a sub-list from the list by index
+    void deleteSubList(size_t index) {
+        if (index >= subLists.size()) {
+            std::cout << "Error: Invalid sub-list index." << std::endl;
+            return;
+        }
+        subLists.erase(subLists.begin() + index);
+    }
+
+    // Display the list
+    void display() const {
+        size_t index = 1;
+        for (const auto& task : tasks) {
+            std::cout << "Task " << index++ << ":" << std::endl;
+            std::cout << "Description: " << task.description << std::endl;
+            std::cout << "Priority: " << task.priority << std::endl;
+            std::cout << "Due Date: " << task.dueDate << std::endl;
+            std::cout << std::endl;
+        }
+        for (const auto& subList : subLists) {
+            std::cout << "Sub-list:" << std::endl;
+            subList.display();
+        }
+    }
+
+private:
+    struct Task {
+        std::string description;
+        int priority;
+        std::string dueDate;
+    };
+    std::list<Task> tasks;
+    std::vector<ToDoList> subLists;
+};
+
+int main() {
+    ToDoList list;
+
+    // Add tasks to the list
+    list.addTask("Buy groceries", 3, "Today");
+    list.addTask("Do laundry", 2, "Tomorrow");
+    list.addTask("Finish project", 1, "Next week");
+
+    // Add a sub-list to the list
+    ToDoList subList;
+    subList.addTask("Clean kitchen", 3, "Today");
+    subList.addTask("Vacuum living room", 2, "Tomorrow");
+    list.addSubList(subList);
+
+    // Display the list
+    list.display();
+
+    // Delete a task
+    list.deleteTask(1);
+
+    // Display the updated list
+    list.display();
+
+    return 0;
+}

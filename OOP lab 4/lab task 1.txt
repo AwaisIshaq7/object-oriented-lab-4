@@ -1,0 +1,87 @@
+#include <iostream>
+
+class LinkedList {
+public:
+    struct Node {
+        int value;
+        Node* next;
+
+        Node(int value) : value(value), next(nullptr) {}
+    };
+
+    LinkedList() : head(nullptr) {}
+
+    // Adds a new node at the end of the LinkedList
+    void push(int value) {
+        Node* newNode = new Node(value);
+
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            Node* current = head;
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+            current->next = newNode;
+        }
+    }
+
+    // Searches for a value in the LinkedList
+    bool search(int value) {
+        Node* current = head;
+        while (current != nullptr) {
+            if (current->value == value) {
+                return true;
+            }
+            current = current->next;
+        }
+        return false;
+    }
+
+    // Reverses the LinkedList
+    void reverse() {
+        Node* previous = nullptr;
+        Node* current = head;
+        while (current != nullptr) {
+            Node* next = current->next;
+            current->next = previous;
+            previous = current;
+            current = next;
+        }
+        head = previous;
+    }
+
+    // Prints the LinkedList
+    void print() {
+        Node* current = head;
+        while (current != nullptr) {
+            std::cout << current->value << " -> ";
+            current = current->next;
+        }
+        std::cout << "nullptr" << std::endl;
+    }
+
+private:
+    Node* head;
+};
+
+int main() {
+    LinkedList list;
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    list.push(4);
+    list.push(5);
+
+    std::cout << "Original list: ";
+    list.print();
+
+    std::cout << "Searching for 3: " << (list.search(3) ? "Found" : "Not found") << std::endl;
+    std::cout << "Searching for 6: " << (list.search(6) ? "Found" : "Not found") << std::endl;
+
+    std::cout << "Reversed list: ";
+    list.reverse();
+    list.print();
+
+    return 0;
+}
